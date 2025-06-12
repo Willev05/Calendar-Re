@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Calendar</title>
+        <link rel="stylesheet" href="styles.css"/>
+        <script src="mainScript.js"></script>
+    </head>
+    <body>
+        <div id="pageParent">
+            <div id="sidePanel">
+                <h2 id="selectedDate" class="center">Date Selected</h2>
+                <div id="appointmentShow">
+                    
+                </div>
+
+                <div id="appointmentCreator">
+                    <h2 class="center">Create an appointment</h2>
+                    <form id="appointmentCreatorForm">
+                        <label for="appointmentName">Title of the apppointment:</label>
+                        <br/>
+                        <input type="text" id="appointmentName" required/>
+
+                        <br/>
+                        <br/>
+
+                        <label for="startTime">Start Time:</label>
+                        <br/>
+                        <input type="time" id="startTime" required/>
+
+                        <br/>
+                        <br/>
+
+
+                        <label for="description">Description of the appointment:</label>
+                        <textarea id="description"></textarea>
+
+                        <br/>
+                        <br/>
+
+                        <input type="submit" id="submitBtn" value="Create"/>
+                        <label id="errorDisplay"></label>
+                    </form>
+                </div>
+            </div>
+    
+            <div id="calendar">
+                <div id="calendarControl">
+                    <button id="prevMonth">&#60;</button>
+                    <h2 id="monthHeader" class="center">Current Month</h2>
+                    <button id="nextMonth">&#62;</button>
+                </div>
+    
+                <table id="mainTable">
+                    <tbody>
+                        <tr id="weekRow">
+                            <th>Sunday</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                            <th>Saturday</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </body>
+</html>
