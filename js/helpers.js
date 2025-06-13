@@ -27,19 +27,31 @@ function getAbsoluteWidthFromElement(element){
 }
 
 //Size element 1 to size of element 2. Uses margins to make it work, adds equal to both sides.
-function resizeElementToOthersSize(element1, element2){
+function resizeElementToOthersSize(element1, element2, matchContentStart = false){
     let element2Width = getAbsoluteWidthFromElement(element2);
     let element1Width = getAbsoluteWidthFromElement(element1);
+    let element1Style = getComputedStyle(element1);
 
     //Gets the difference in widths
     let elementWidthDiffs = element2Width - element1Width;
-    let paddingToAdd = elementWidthDiffs / 2;
 
-    let element1Style = getComputedStyle(element1);
-    let element2Style = getComputedStyle(element2);
+    if (matchContentStart){
+        let element2Style = getComputedStyle(element2);
 
-    element1.style.marginLeft = parseFloat(element1Style.marginLeft) + paddingToAdd + "px";
-    element1.style.marginRight = parseFloat(element1Style.marginRight) + paddingToAdd + "px";
+        elementWidthDiffs = elementWidthDiffs + parseFloat(element1Style.marginLeft) - parseFloat(element2Style.marginLeft);
+
+        element1.style.marginLeft = element2Style.marginLeft;
+        element1.style.marginRight = parseFloat(element1Style.marginRight) + elementWidthDiffs + "px";
+    }
+    else {
+        let paddingToAdd = elementWidthDiffs / 2;
+
+        element1.style.marginLeft = parseFloat(element1Style.marginLeft) + paddingToAdd + "px";
+        element1.style.marginRight = parseFloat(element1Style.marginRight) + paddingToAdd + "px";
+    }
+
+    
+
 }
 
 //Returns days ina  given month (0 index)

@@ -33,8 +33,8 @@ function initiateCalendar(){
     }
 
     //Finish the sizes
-    resizeElementToOthersSize(document.getElementById("startTimeLabel"), document.getElementById("startTime"));
-    resizeElementToOthersSize(document.getElementById("endTimeLabel"), document.getElementById("endTime"));
+    resizeElementToOthersSize(document.getElementById("startTimeLabel"), document.getElementById("startTime"), true);
+    resizeElementToOthersSize(document.getElementById("endTimeLabel"), document.getElementById("endTime"), true);
 }
 
 //Calls functions that will need to update if a new calendar month needs to be displayed
