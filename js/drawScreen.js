@@ -45,7 +45,7 @@ function drawOnNewSelectedDate(){
     updateDateDisplay();
     updateMonthDisplay();
     writeCalendar();
-    writeevents();
+    writeEvents();
 }
 
 //Calls functions to reformat window to fit all elements
@@ -54,7 +54,7 @@ function resizeElements(e){
     let shouldBeTableSize = resizeCalendarTable();
     resizeCalendar();
     resizeCalendarCells(shouldBeTableSize);
-    resizeeventView();
+    resizeEventView();
     writeCalendar();
 }
 
@@ -128,7 +128,7 @@ function resizeCalendar(){
 }
 
 //Resize the event display section of the side panel vertically
-function resizeeventView(){
+function resizeEventView(){
     //Get all required elements
     let eventForm = document.getElementById("eventCreator");
     let eventViewer = document.getElementById("eventShow");
@@ -248,7 +248,7 @@ function writeCalendar(){
 }
 
 //Write the events on the left side of the screen
-function writeevents(){
+function writeEvents(){
     //Gets the daily events from storage
     let monthlyevents = JSON.parse(localStorage.getItem(month.toString() + year));
     monthlyevents = monthlyevents != null ? monthlyevents : {};

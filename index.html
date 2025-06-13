@@ -6,6 +6,8 @@
         <link rel="stylesheet" href="styles.css"/>
         <script src="./js/helpers.js"></script>
         <script src="./js/drawScreen.js"></script>
+        <script src="./js/calendarEventBookingHandler.js"></script>
+        <script src="./js/calendarEventsHandler.js"></script>
         <script src="mainScript.js"></script>
     </head>
     <body>
@@ -26,9 +28,11 @@
                         <br/>
                         <br/>
 
-                        <label for="startTime">Start Time:</label>
+                        <label for="startTime">Start Time:</label> 
+                        <label for="endTime">End Time:</label>
                         <br/>
                         <input type="time" id="startTime" required/>
+                        <input type="time" id="endTime" required/>
 
                         <br/>
                         <br/>
