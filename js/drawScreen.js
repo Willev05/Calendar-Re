@@ -253,18 +253,18 @@ function writeCalendar(){
 //Write the events on the left side of the screen
 function writeEvents(){
     //Gets the daily events from storage
-    let monthlyevents = JSON.parse(localStorage.getItem(month.toString() + year));
-    monthlyevents = monthlyevents != null ? monthlyevents : {};
+    let monthlyEvents = JSON.parse(localStorage.getItem(month.toString() + year));
+    monthlyEvents = monthlyEvents != null ? monthlyEvents : {};
 
-    let dateevents = monthlyevents["d" + day];
-    dateevents = dateevents != null ? dateevents : [];
+    let dateEvents = monthlyEvents["d" + day];
+    dateEvents = dateEvents != null ? dateEvents : [];
 
     //Wipe currently displaying events
     let eventContainer = document.getElementById("eventShow");
     eventContainer.textContent = "";
 
 
-    if (dateevents.length == 0){
+    if (dateEvents.length == 0){
         //Make a container to contain info about the day and how to make appointmnent
         let newContainer = document.createElement("div");
         let eventDesc = document.createElement("p");
@@ -279,7 +279,7 @@ function writeEvents(){
         eventContainer.appendChild(newContainer);
     }
 
-    for (event of dateevents){
+    for (singleEvent of dateEvents){
         //All event details are part of another general div
         let newContainer = document.createElement("div");
         let eventTitle = document.createElement("h3");
@@ -293,9 +293,9 @@ function writeEvents(){
         newContainer.classList.add("event-container");
         
         //Inputs the stored event into the elements
-        eventTitle.textContent = event.name;
-        eventTimes.textContent = event.start;
-        eventDesc.textContent = event.description != "" ? event.description : "No description.";
+        eventTitle.textContent = singleEvent.name;
+        eventTimes.textContent = singleEvent.start + " - " + singleEvent.end;
+        eventDesc.textContent = singleEvent.description != "" ? singleEvent.description : "No description.";
 
         //Adds them to new div and then finnaly appends it to the main container
         newContainer.appendChild(eventTitle);
