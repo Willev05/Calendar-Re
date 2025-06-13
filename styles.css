@@ -150,3 +150,9 @@ input::placeholder{
 .cellContainer {
     height: 100%;
 }
+
+.event-container {
+    border-color:gray;
+    border-style: solid;
+    margin: 10px 10px;
+}
