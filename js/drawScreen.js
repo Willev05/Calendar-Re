@@ -45,7 +45,7 @@ function drawOnNewSelectedDate(){
     updateDateDisplay();
     updateMonthDisplay();
     writeCalendar();
-    writeAppointments();
+    writeevents();
 }
 
 //Calls functions to reformat window to fit all elements
@@ -54,7 +54,7 @@ function resizeElements(e){
     let shouldBeTableSize = resizeCalendarTable();
     resizeCalendar();
     resizeCalendarCells(shouldBeTableSize);
-    resizeAppointmentView();
+    resizeeventView();
     writeCalendar();
 }
 
@@ -127,23 +127,23 @@ function resizeCalendar(){
     calendar.style.width = remainingWidth + "px";
 }
 
-//Resize the appointment display section of the side panel vertically
-function resizeAppointmentView(){
+//Resize the event display section of the side panel vertically
+function resizeeventView(){
     //Get all required elements
-    let appointmentForm = document.getElementById("appointmentCreator");
-    let appointmentViewer = document.getElementById("appointmentShow");
+    let eventForm = document.getElementById("eventCreator");
+    let eventViewer = document.getElementById("eventShow");
     let selectedDate = document.getElementById("selectedDate");
     let parent = document.getElementById("sidePanel");
 
     //Get the height of every other element
-    let appointmentFormHeight = getAbsoluteHeightFromElement(appointmentForm);
+    let eventFormHeight = getAbsoluteHeightFromElement(eventForm);
     let selectedDateHeight = getAbsoluteHeightFromElement(selectedDate);
     let totalHeight = getAbsoluteHeightFromElement(parent);
 
-    //Set the appointment display section to the remaining height
-    let remainingHeight = totalHeight - appointmentFormHeight - selectedDateHeight;
+    //Set the event display section to the remaining height
+    let remainingHeight = totalHeight - eventFormHeight - selectedDateHeight;
 
-    appointmentViewer.style.height = remainingHeight + "px";
+    eventViewer.style.height = remainingHeight + "px";
 }
 
 //Resize the calendar cells to make the uniform vertically
@@ -164,12 +164,12 @@ function writeCalendar(){
     let currentDay = 1;
     let dayOfTheWeekToStart = new Date(calYear, calMonth, 1).getDay();
 
-    //Gets all the rows and pulls the monthly appointments from storage
+    //Gets all the rows and pulls the monthly events from storage
     let calendarRows = document.querySelectorAll("#mainTable tr[class=\"calendarRow\"]");
-    let monthlyAppointments = JSON.parse(localStorage.getItem(calMonth.toString() + calYear));
+    let monthlyevents = JSON.parse(localStorage.getItem(calMonth.toString() + calYear));
 
     //Adds a check to make sure no null objects get accessed
-    monthlyAppointments = monthlyAppointments != null ? monthlyAppointments : {};
+    monthlyevents = monthlyevents != null ? monthlyevents : {};
 
     //Goes through each row, cells run through keep track of how many cells have been itterated
     let cellsRunThrough = 0;
@@ -178,14 +178,14 @@ function writeCalendar(){
         //Gets all cells for specific
         let cells = row.children;
         for (cell of cells){
-            //Gets the cell container, date container, events container and the day appointments for current day
+            //Gets the cell container, date container, events container and the day events for current day
             cell = cell.firstElementChild;
             let date = cell.firstElementChild;
             let events = cell.lastElementChild;
-            let dayAppointments = monthlyAppointments["d" + currentDay];
+            let dayevents = monthlyevents["d" + currentDay];
 
             ////Adds a check to make sure no null objects get accessed
-            dayAppointments = dayAppointments != null ? dayAppointments : [];
+            dayevents = dayevents != null ? dayevents : [];
 
             //Remove any previous date or events for the cell
             events.textContent = "";
@@ -214,20 +214,20 @@ function writeCalendar(){
 
                 date.textContent = currentDay.toString();
                 
-                //Write appointments on the small card
+                //Write events on the small card
                 //Take how many events are remaining, we need to figure out how many can fit on the screen
-                let amOfEvents = dayAppointments.length;
+                let amOfEvents = dayevents.length;
                 let remainingHeight = parseFloat(getComputedStyle(cell).height) - 50;
-                for (let i = 0; i < dayAppointments.length; i++){
+                for (let i = 0; i < dayevents.length; i++){
                     let text = "";
 
                     //If there is no more space to display an event on the small card, display how many are supposed to be left and end the loop
                     if (remainingHeight - 26 < 26){
                         text = "+" + amOfEvents + " more";
-                        i = dayAppointments.length;
+                        i = dayevents.length;
                     }
                     else {
-                        text = dayAppointments[i]["name"];
+                        text = dayevents[i]["name"];
                     }
 
                     //Adds the event title to the calendar through a p element
@@ -247,57 +247,58 @@ function writeCalendar(){
     }
 }
 
-//Write the appointments on the left side of the screen
-function writeAppointments(){
-    //Gets the daily appointments from storage
-    let monthlyAppointments = JSON.parse(localStorage.getItem(month.toString() + year));
-    monthlyAppointments = monthlyAppointments != null ? monthlyAppointments : {};
+//Write the events on the left side of the screen
+function writeevents(){
+    //Gets the daily events from storage
+    let monthlyevents = JSON.parse(localStorage.getItem(month.toString() + year));
+    monthlyevents = monthlyevents != null ? monthlyevents : {};
 
-    let dateAppointments = monthlyAppointments["d" + day];
-    dateAppointments = dateAppointments != null ? dateAppointments : [];
+    let dateevents = monthlyevents["d" + day];
+    dateevents = dateevents != null ? dateevents : [];
 
-    //Wipe currently displaying appointments
-    let appointmentContainer = document.getElementById("appointmentShow");
-    appointmentContainer.textContent = "";
+    //Wipe currently displaying events
+    let eventContainer = document.getElementById("eventShow");
+    eventContainer.textContent = "";
 
 
-    if (dateAppointments.length == 0){
+    if (dateevents.length == 0){
         //Make a container to contain info about the day and how to make appointmnent
         let newContainer = document.createElement("div");
-        let appointmentDesc = document.createElement("p");
+        let eventDesc = document.createElement("p");
 
         //write the p that will contain text
-        appointmentDesc.textContent = "You have no appointments on this date! To make an appointment, select a date on the calendar and make fill the form."
+        eventDesc.textContent = "You have no events on this date! To make an event, select a date on the calendar and make fill the form."
 
         //Add to new div
-        newContainer.appendChild(appointmentDesc);
+        newContainer.appendChild(eventDesc);
 
         //Add to the main div
-        appointmentContainer.appendChild(newContainer);
+        eventContainer.appendChild(newContainer);
     }
 
-    for (appointment of dateAppointments){
-        //All appointment details are part of another general div
+    for (event of dateevents){
+        //All event details are part of another general div
         let newContainer = document.createElement("div");
-        let appointmentTitle = document.createElement("h3");
-        let appointmentTimes = document.createElement("p");
-        let appointmentDesc = document.createElement("p");
+        let eventTitle = document.createElement("h3");
+        let eventTimes = document.createElement("p");
+        let eventDesc = document.createElement("p");
 
         //Only want all elements to be centered
-        appointmentTitle.classList.add("center");
-        appointmentTimes.classList.add("center");
-        appointmentDesc.classList.add("center");
+        eventTitle.classList.add("center");
+        eventTimes.classList.add("center");
+        eventDesc.classList.add("center");
+        newContainer.classList.add("event-container");
         
-        //Inputs the stored appointment into the elements
-        appointmentTitle.textContent = appointment.name;
-        appointmentTimes.textContent = appointment.start;
-        appointmentDesc.textContent = appointment.description;
+        //Inputs the stored event into the elements
+        eventTitle.textContent = event.name;
+        eventTimes.textContent = event.start;
+        eventDesc.textContent = event.description != "" ? event.description : "No description.";
 
         //Adds them to new div and then finnaly appends it to the main container
-        newContainer.appendChild(appointmentTitle);
-        newContainer.appendChild(appointmentTimes);
-        newContainer.appendChild(appointmentDesc);
+        newContainer.appendChild(eventTitle);
+        newContainer.appendChild(eventTimes);
+        newContainer.appendChild(eventDesc);
 
-        appointmentContainer.appendChild(newContainer);
+        eventContainer.appendChild(newContainer);
     }
 }

@@ -46,8 +46,8 @@ document.addEventListener("DOMContentLoaded", function(){
     prevMonth.addEventListener("click", changePrevMonth);
 
     //Add functionality to the form
-    let form = document.getElementById("appointmentCreatorForm");
-    form.addEventListener("submit", appointmentCreate);
+    let form = document.getElementById("eventCreatorForm");
+    form.addEventListener("submit", eventCreate);
 
 });
 
@@ -98,50 +98,50 @@ function cellClicked(e){
 //For storage, it will work like this:
 //Each key for localstorage will be a monthyear combo
 //Value will be a object storing vars with key days as d#
-//Each value will be a list of appointments
-//Each appointment is a object with name, start, end, description
-function appointmentCreate(e){
+//Each value will be a list of events
+//Each event is a object with name, start, end, description
+function eventCreate(e){
     //Prevent form from auto sending
     e.preventDefault();
 
     //Get all relevent form info
-    let name = document.getElementById("appointmentName");
+    let name = document.getElementById("eventName");
     let startTime = document.getElementById("startTime");
     let description = document.getElementById("description");
 
-    //Create the base appointment object
-    let newAppointment = {
+    //Create the base event object
+    let newevent = {
         name:name.value,
         start:startTime.value,
         description:description.value
     };
 
-    //Gets the alreadyt saved appointments for current month. If none, makes sure to create empty object as to not access a null object
-    let monthAppointments = JSON.parse(localStorage.getItem(month.toString() + year));
-    monthAppointments = monthAppointments != null ? monthAppointments : {};
+    //Gets the alreadyt saved events for current month. If none, makes sure to create empty object as to not access a null object
+    let monthevents = JSON.parse(localStorage.getItem(month.toString() + year));
+    monthevents = monthevents != null ? monthevents : {};
 
-    //Checks to see if the day already has appointments
-    dayAppointments = monthAppointments["d" + day];
+    //Checks to see if the day already has events
+    dayevents = monthevents["d" + day];
 
-    //If there are no day appointments, create it to make sure we are not referencing a null object
-    if (dayAppointments == null){
-        dayAppointments = [];
-        monthAppointments["d" + day] = dayAppointments;
+    //If there are no day events, create it to make sure we are not referencing a null object
+    if (dayevents == null){
+        dayevents = [];
+        monthevents["d" + day] = dayevents;
     }
 
-    //Push the new appointment into the respective places and store it into local storage
-    dayAppointments.push(newAppointment);
+    //Push the new event into the respective places and store it into local storage
+    dayevents.push(newevent);
 
-    let monthAppointmentsString = JSON.stringify(monthAppointments);
+    let montheventsString = JSON.stringify(monthevents);
 
-    localStorage.setItem(month.toString() + year, monthAppointmentsString);
+    localStorage.setItem(month.toString() + year, montheventsString);
 
     //Wipe the inputs
     name.value = "";
     startTime.value = "";
     description.value = "";
 
-    //Write the calendar and appointment screen to reflect the changes
+    //Write the calendar and event screen to reflect the changes
     writeCalendar();
-    writeAppointments();
+    writeevents();
 }

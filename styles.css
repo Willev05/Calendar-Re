@@ -54,11 +54,11 @@ input::placeholder{
     vertical-align: top;
 }
 
-#appointmentCreatorForm > input[type="text"] {
+#eventCreatorForm > input[type="text"] {
     width: 95%;
 }
 
-#appointmentCreatorForm > textarea {
+#eventCreatorForm > textarea {
     width: 95%;
     height: 90px;
     resize: none;
@@ -102,11 +102,11 @@ input::placeholder{
     width: 180px;
 }
 
-#appointmentCreatorForm > * {
+#eventCreatorForm > * {
     margin: 5px;
 }
 
-#appointmentShow {
+#eventShow {
     overflow: auto;
 }
 
