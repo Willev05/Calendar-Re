@@ -32,6 +32,9 @@ function initiateCalendar(){
         mainTable.appendChild(newRow)
     }
 
+    //Finish the sizes
+    resizeElementToOthersSize(document.getElementById("startTimeLabel"), document.getElementById("startTime"));
+    resizeElementToOthersSize(document.getElementById("endTimeLabel"), document.getElementById("endTime"));
 }
 
 //Calls functions that will need to update if a new calendar month needs to be displayed
